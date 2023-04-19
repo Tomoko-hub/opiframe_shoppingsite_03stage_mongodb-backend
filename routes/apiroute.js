@@ -4,12 +4,13 @@ const itemModel = require("../models/item");
 let router = express.Router();
 
 //Database
-let database = [];
-let id = 100;
+//let database = [];
+//let id = 100;
 
 // REST API
 router.get("/api/shopping", function(req,res){
     let query = {"user": req.session.user}
+    if(req.query.type)
     itemModel.find(query).then(function(items){
 
     }).catch(function(err){
@@ -26,7 +27,7 @@ router.post("/api/shopping", function(req, res){
         return res.status(400).json({"Message":"Bad request"})
     }
     let item=({
-        "type":req.body.type,
+        "type":req.body.type.toLowerCase(),
         "count":req.body.count,
         "price":req.body.price,
         "id":id,
@@ -57,7 +58,7 @@ router.put("/api/shopping/:id", function(req,res){
         return res.status(400).json({"Message": "Bad request"});
     }
     let item = {
-        "type": req.body.type,
+        "type": req.body.type.toLowerCase(),
         "count": req.body.count,
         "price": req.body.price,
         "id": tempId,
